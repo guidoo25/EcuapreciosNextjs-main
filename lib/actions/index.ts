@@ -73,11 +73,46 @@ export async function getProductById(productId: string) {
   }
 
   const data = await response.json();
-  console.log(data);
 
   return data;
 
 
+}
+
+export async function getProductStats(productData: { fecha: string; precio: number }[]) {
+ 
+
+  const priceStats = calculatePriceStats(productData);
+ // console.log(priceStats);
+
+  return priceStats;
+}
+
+function calculatePriceStats(historyData: { fecha: string; precio: number }[]) {
+  if (historyData.length === 0) {
+    return {
+      currentPrice: 0,
+      averagePrice: 0,
+      highestPrice: 0,
+      lowestPrice: 0
+    };
+  }
+
+  const prices = historyData.map(d => parseFloat(d.precio.toString()));
+
+  const currentPrice = prices[prices.length - 1]; // Último precio en el historial
+  const averagePrice = prices.reduce((acc, price) => acc + price, 0) / prices.length;
+  const highestPrice = Math.max(...prices);
+  const lowestPrice = Math.min(...prices);
+
+
+
+  return {
+    currentPrice,
+    averagePrice,
+    highestPrice,
+    lowestPrice
+  };
 }
 
 export async function getAllProducts(page: number = 1) {
@@ -89,7 +124,7 @@ export async function getAllProducts(page: number = 1) {
     }
 
     const data = await response.json();
-    console.log(data);
+//    console.log(data);
     const products = data.data.map((product: any)  => ({
       id: product.id,
       nombre: product.nombre,
@@ -116,7 +151,7 @@ export async function getSimilarProducts(productId: string) {
   }
 
   const data = await response.json();
-  console.log(data);
+//  console.log(data);
 
   return data;
 }
@@ -129,7 +164,7 @@ export async function getProductsearch(productId: string) {
   }
 
   const data = await response.json();
-  console.log(data);
+  //console.log(data);
 
   return data;
 }
@@ -143,7 +178,7 @@ export async function getHistroyData (prouctId: string)
   }
 
   const data = await response.json();
-  console.log(data);
+  //console.log(data);
 
   return data;
 }
