@@ -11,8 +11,23 @@ const heroImages = [
   { imgUrl: '/assets/images/hero-4.svg', alt: 'air fryer'},
   { imgUrl: '/assets/images/hero-5.svg', alt: 'chair'},
 ]
+const categoryOptions = [
+  { value: 'computadoras', label: 'Computadoras' },
+  { value: 'Celulares', label: 'Celulares' },
+  { value: 'consolas', label: 'Consolas' },
+  { value: 'deportes-y-fitness', label: 'Fitness' },
+  { value: 'televisores', label: 'Televisores' },
+  { value: 'aires-acondicionados', label: 'Aires ' },
+  { value: 'audio', label: 'audio' },
+  { value: 'salud', label: 'Salud' },
+  { value: 'hogar', label: 'Hogar' },
+  { value: 'electrodomesticos', label: 'Electrodomésticos' },
+  { value: 'relojes-smartwatchs-y-smartbands', label: 'Smartwatchs' },
+  { value: 'bebes', label: 'Bebes' },
+];
 
-const HeroCarousel = () => {
+
+const HeroCarousel = async () => {
   return (
     <div className="hero-carousel">
       <Carousel

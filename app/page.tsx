@@ -1,12 +1,14 @@
 import HeroCarousel from "@/components/HeroCarousel"
-import Searchbar from "@/components/Searchbar"
 import Image from "next/image"
-import { getAllProducts } from "@/lib/actions"
+import { getAllProducts, getDataGrafica } from "@/lib/actions"
 import ProductCard from "@/components/ProductCard"
 import { useState } from 'react';
+import ChartGlobal from "@/components/chartglobal";
+import PriceHistoryGlobal from "@/components/chartglobal";
 
 const Home = async () => {
   const allProducts = await getAllProducts();
+  const datagrafica = await getDataGrafica();
   
 
   return (
@@ -15,7 +17,7 @@ const Home = async () => {
         <div className="flex max-xl:flex-col gap-16">
           <div className="flex flex-col justify-center"> 
             <p className="small-text">
-              Smart Shopping Starts Here:
+            Análisis de precios ecommerce a lo largo del año 
               <Image 
                 src="/assets/icons/arrow-right.svg"
                 alt="arrow-right"
@@ -24,24 +26,18 @@ const Home = async () => {
               />
             </p>
 
-            <h1 className="head-text">
-              Unleash the Power of
-              <span className="text-primary"> PriceWise</span>
+            <h1 className="hero-title">
+            Análisis de todos los productos en el mercado actual ecommerce
             </h1>
+            <PriceHistoryGlobal data={datagrafica} selectedCategory="Celulares" />
 
-            <p className="mt-6">
-              Powerful, self-serve product and growth analytics to help you convert, engage, and retain more.
-            </p>
-
-            <Searchbar />
           </div>
-
-          <HeroCarousel />
+            <HeroCarousel /> 
         </div>
       </section>
 
       <section className="trending-section">
-        <h2 className="section-text">Trending</h2>
+        <h2 className="section-text">Tendencia</h2>
 
         <div className="flex flex-wrap gap-x-8 gap-y-16">
   {allProducts?.data.map((product: any) => (

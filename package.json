@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "deploy": "npm run export && gh-pages -d out",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -19,7 +20,10 @@
     "nodemailer": "^6.9.5",
     "react": "latest",
     "react-dom": "latest",
+    "react-redux": "^9.1.2",
     "react-responsive-carousel": "^3.2.23",
+    "recharts": "^2.12.7",
+    "redux": "^5.0.1",
     "supports-color": "^8.1.1",
     "zustand": "^4.5.5"
   },

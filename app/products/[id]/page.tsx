@@ -1,10 +1,10 @@
-import Modal from "@/components/Modal";
 import PriceInfoCard from "@/components/PriceInfoCard";
 import ProductCard from "@/components/ProductCard";
 import PriceHistoryChart from "@/components/historychart";
 import { getProductById, getProductStats, getProductsearch, getSimilarProducts } from "@/lib/actions"
 import { formatNumber } from "@/lib/utils";
 import { Product } from "@/types";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -13,12 +13,33 @@ type Props = {
   params: { id: string }
 }
 
+ export async function GenerateMetadata({params : {id}}:Props) : Promise<Metadata> {
+   const product = await getProductsearch(id);
+
+   return {
+       title: `${product!.nombre} - ${product!.lugar}`,
+       description: `Pagina del producto ${product!.nombre}`,
+     
+  }
+ }
+
+
+
+// export async function generateStaticParams() {
+//   return [
+//       {
+//           params : { id }
+//       }
+//   ]
+// }
+
 
 
 const ProductDetails = async ({ params: { id } }: Props) => {
   const product = await getProductById(id);
   const productcontext = await getProductsearch(id);
   const productStats = await getProductStats(product); 
+  
 
   if(!product) redirect('/')
 
@@ -79,12 +100,19 @@ const ProductDetails = async ({ params: { id } }: Props) => {
               </div>
 
               <div className="p-2 bg-white-200 rounded-10">
-                <Image 
-                  src="/assets/icons/share.svg"
-                  alt="share"
-                  width={20}
-                  height={20}
-                />
+        
+                <a 
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent('https://preciosecuador.tech')}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <Image 
+                    src="/assets/icons/share.svg"
+                    alt="share"
+                    width={20}
+                    height={20}
+                  />
+                </a>
               </div>
             </div>
           </div>
@@ -92,10 +120,10 @@ const ProductDetails = async ({ params: { id } }: Props) => {
           <div className="product-info">
             <div className="flex flex-col gap-2">
               <p className="text-[34px] text-secondary font-bold">
-                {productcontext!.currency} {formatNumber(productStats.currentPrice)}
+                $ {formatNumber(productStats.currentPrice)}
               </p>
               <p className="text-[21px] text-black opacity-50 line-through">
-                {product.currency} {formatNumber(productStats.averagePrice)}
+                $ {formatNumber(productStats.averagePrice)}
               </p>
             </div>
 
@@ -108,9 +136,9 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                     width={16}
                     height={16}
                   />
-                  <p className="text-sm text-primary-orange font-semibold">
+                  {/* <p className="text-sm text-primary-orange font-semibold">
                     {product.stars || '25'}
-                  </p>
+                  </p> */}
                 </div>
 
                 <div className="product-reviews">
@@ -120,16 +148,16 @@ const ProductDetails = async ({ params: { id } }: Props) => {
                     width={16}
                     height={16}
                   />
-                  <p className="text-sm text-secondary font-semibold">
+                  {/* <p className="text-sm text-secondary font-semibold">
                     {product.reviewsCount} Reviews
-                  </p>
+                  </p> */}
                 </div>
               </div>
 
-              <p className="text-sm text-black opacity-50">
+              {/* <p className="text-sm text-black opacity-50">
                 <span className="text-primary-green font-semibold">93% </span> of
                 buyers have recommeded this.
-              </p>
+              </p> */}
             </div>
           </div>
 
@@ -168,7 +196,7 @@ const ProductDetails = async ({ params: { id } }: Props) => {
           <p className="section-text">Productos Similares</p>
 
           <div className="flex flex-wrap gap-10 mt-7 w-full">
-            {similarProducts.map((product) => (
+            {similarProducts.map((product: any) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>

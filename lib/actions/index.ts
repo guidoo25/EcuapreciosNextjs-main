@@ -115,6 +115,21 @@ function calculatePriceStats(historyData: { fecha: string; precio: number }[]) {
   };
 }
 
+export async function getDataGrafica ()  {
+  try {
+    const response = await fetch(`https://ecuaprecios-api-production.up.railway.app/api/productos/grafica`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = response.json();
+    return data;
+  }
+  catch (error) {
+    console.log(error);
+  }
+
+}
+
 export async function getAllProducts(page: number = 1) {
   try {
     const response = await fetch(`https://ecuaprecios-api-production.up.railway.app/api/productos?page=${page}`);
@@ -124,17 +139,25 @@ export async function getAllProducts(page: number = 1) {
     }
 
     const data = await response.json();
-//    console.log(data);
-    const products = data.data.map((product: any)  => ({
-      id: product.id,
-      nombre: product.nombre,
-      lugar: product.luar,
-      photo: product.photo,
-      urlproducto: product.urlproducto,
-      precio: product.precio,
-      fecha: product.fecha,
 
-    }));
+
+    return data;
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getProductsByCategory(category: string) {
+  try {
+    const response = await fetch(`https://ecuaprecios-api-production.up.railway.app/api/productos/categoria/${category}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log(data);
 
     return data;
 

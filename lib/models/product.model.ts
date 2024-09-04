@@ -1,4 +1,4 @@
-interface Producto {
+export interface Producto {
   id: string;
   nombre: string;
   lugar: string;
@@ -8,7 +8,7 @@ interface Producto {
   fecha: string;
 }
 
-interface RespuestaAPI {
+export  interface RespuestaAPI {
   productos: Producto[];
   totalPages: number;
   currentPage: number;
