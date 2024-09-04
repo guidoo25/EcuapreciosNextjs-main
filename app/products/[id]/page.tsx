@@ -13,15 +13,7 @@ type Props = {
   params: { id: string }
 }
 
- export async function GenerateMetadata({params : {id}}:Props) : Promise<Metadata> {
-   const product = await getProductsearch(id);
 
-   return {
-       title: `${product!.nombre} - ${product!.lugar}`,
-       description: `Pagina del producto ${product!.nombre}`,
-     
-  }
- }
 
 
 
