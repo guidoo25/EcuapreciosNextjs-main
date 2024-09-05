@@ -14,6 +14,10 @@ interface PriceHistoryProps {
 }
 
 const PriceHistoryChart: React.FC<PriceHistoryProps> = ({ data, selectedCategory }) => {
+  if (!data || !data[selectedCategory] || !data[selectedCategory]["2024.0"]) {
+    return <div>No Existe data para esta cateogria</div>;
+  }
+
   const categoryData = data[selectedCategory]["2024.0"];
   const months = Object.keys(categoryData);
   const prices = months.map(m => categoryData[m].pct_change);
@@ -21,7 +25,7 @@ const PriceHistoryChart: React.FC<PriceHistoryProps> = ({ data, selectedCategory
 
   const options = {
     title: {
-      text: `Anlisis de precios mercado local `
+      text: `Cuanto vario el precio de ${selectedCategory} en 2024`,
     },
     tooltip: {
       trigger: 'item',
@@ -58,7 +62,6 @@ const PriceHistoryChart: React.FC<PriceHistoryProps> = ({ data, selectedCategory
         left: 'center',
         top: 'center',
         style: {
-          
           fill: '#333',
           font: '14px Arial'
         }
@@ -70,7 +73,7 @@ const PriceHistoryChart: React.FC<PriceHistoryProps> = ({ data, selectedCategory
     <div className="price-history-chart">
       <EChartsReact
         option={options}
-        style={{ height: '350px', width: '100%' }}
+        style={{ height: '490px', width: '100%' }}
       />
     </div>
   );
