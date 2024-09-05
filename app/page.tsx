@@ -29,10 +29,10 @@ const Home = async () => {
             <h1 className="hero-title">
             Análisis de todos los productos en el mercado actual ecommerce
             </h1>
-            <PriceHistoryGlobal data={datagrafica} selectedCategory="Celulares" />
+            {/* <PriceHistoryGlobal data={datagrafica} selectedCategory="Celulares" /> */}
 
           </div>
-            <HeroCarousel /> 
+            <HeroCarousel data={datagrafica} /> 
         </div>
       </section>
 
