@@ -3,36 +3,34 @@
 import React from 'react';
 import EChartsReact from 'echarts-for-react'; // Asegúrate de que esto es correcto
 
-interface PriceHistoryData {
-  fecha: string;
-  precio: number;
-}
-
 interface PriceHistoryProps {
   data: Record<string, any>;
   selectedCategory: string;
 }
 
 const PriceHistoryChart: React.FC<PriceHistoryProps> = ({ data, selectedCategory }) => {
-  if (!data || !data[selectedCategory] || !data[selectedCategory]["2024.0"]) {
-    return <div>No Existe data para esta cateogria</div>;
+  // Verificar que los datos existan para la categoría seleccionada y año
+  if (!data || !data[selectedCategory] || !data[selectedCategory]["2024"]) {
+    return <div>No existe data para esta categoría</div>;
   }
 
-  const categoryData = data[selectedCategory]["2024.0"];
-  const months = Object.keys(categoryData);
+  // Obtener los datos para la categoría y año especificado
+  const categoryData = data[selectedCategory]["2024"];
+  const months = Object.keys(categoryData).filter(month => categoryData[month].pct_change !== undefined);
   const prices = months.map(m => categoryData[m].pct_change);
-  const echoHistorico = months.map(m => categoryData[m].echo_historico || '');
+  const historyDescriptions = months.map(m => categoryData[m].fecha_historico || '');
 
+  // Configuración del gráfico
   const options = {
     title: {
-      text: `Cuanto vario el precio de ${selectedCategory} en 2024`,
+      text: `Cuánto varió el precio de ${selectedCategory} en 2024`,
     },
     tooltip: {
       trigger: 'item',
       formatter: function(params: any) {
         const month = params.name;
         const pctChange = categoryData[month]?.pct_change || 'N/A';
-        const history = categoryData[month]?.echo_historico || 'N/A';
+        const history = categoryData[month]?.fecha_historico || 'N/A';
         return `
           <strong>${month}</strong><br/>
           Cambio en %: ${pctChange}<br/>
@@ -42,17 +40,26 @@ const PriceHistoryChart: React.FC<PriceHistoryProps> = ({ data, selectedCategory
     },
     xAxis: {
       data: months,
-      type: 'category'
+      type: 'category',
+      axisLabel: {
+        rotate: 45
+      }
     },
     yAxis: {
       type: 'value',
-      min: 0
+      min: 0,
+      axisLabel: {
+        formatter: '{value}%'
+      }
     },
     series: [{
       data: prices,
       type: 'line',
       itemStyle: {
         color: 'rgba(53, 162, 235, 0.5)'
+      },
+      lineStyle: {
+        width: 2
       }
     }],
     // Opcional: Agregar anotaciones para eventos específicos

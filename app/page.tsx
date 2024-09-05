@@ -26,9 +26,16 @@ const Home = async () => {
               />
             </p>
 
-            <h1 className="hero-title">
-            Análisis de todos los productos en el mercado actual ecommerce
-            </h1>
+            <h1 className="text-3xl font-bold text-gray-800 mb-4 leading-snug">
+  Análisis del Mercado E-Commerce
+</h1>
+<p className="text-lg text-gray-600 mb-6">
+  Creando un dataset apartir de precios en el mercado actual, enfocándonos en cómo 
+  el incremento del IVA, el alza de la gasolina y la inflación afectan a diversos productos. 
+  Este análisis contribuirá a modelos de machine learning que permitirán predecir tendencias 
+  y ajustar estrategias según las variables económicas.
+</p>
+
             {/* <PriceHistoryGlobal data={datagrafica} selectedCategory="Celulares" /> */}
 
           </div>
