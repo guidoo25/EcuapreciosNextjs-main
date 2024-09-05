@@ -3,7 +3,7 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from 'react-responsive-carousel';
 import Image from "next/image";
-
+import PriceHistoryGlobal from "./chartglobal";
 const heroImages = [
   { imgUrl: '/assets/images/hero-1.svg', alt: 'smartwatch'},
   { imgUrl: '/assets/images/hero-2.svg', alt: 'bag'},
@@ -27,7 +27,8 @@ const categoryOptions = [
 ];
 
 
-const HeroCarousel = async () => {
+const HeroCarousel =  ({data}:any) => {
+  console.log(data);
   return (
     <div className="hero-carousel">
       <Carousel
@@ -38,14 +39,10 @@ const HeroCarousel = async () => {
         showArrows={false}
         showStatus={false}
       >
-        {heroImages.map((image) => (
-          <Image 
-            src={image.imgUrl}
-            alt={image.alt}
-            width={484}
-            height={484}
-            className="object-contain"
-            key={image.alt}
+        {categoryOptions.map((image) => (
+        
+          <PriceHistoryGlobal data={data} selectedCategory={image.value}
+           
           />
         ))}
       </Carousel>
